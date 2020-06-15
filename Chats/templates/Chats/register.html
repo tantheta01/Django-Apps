@@ -1,0 +1,15 @@
+{% extends 'Chats/base.html' %}
+{% block register %}
+<div>
+	<h2>
+		<b>
+			Fill your registeration Details
+		</b>
+	</h2>
+	<form method="post">
+		{{form.as_p}}
+		<button type="submit">Save</button>
+	</form>
+</div>
+
+{% endblock %}

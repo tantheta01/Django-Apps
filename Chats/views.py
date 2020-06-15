@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, BlogUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import regForm, SendMessage
+import time
 
 
 
@@ -17,10 +17,11 @@ def send(request):
 
 		form = SendMessage(request.POST)
 		if form.is_valid():
-			message = form.save(commit = False)
+			Message = form.save(commit = False)
 			person = request.user
-			message.sender = person.username
-			message.save()
+			Message.time_of_send = time.time()
+			Message.sender = person.username
+			Message.save()
 			return redirect('somepage')
 		else:
 			form = SendMessage()
@@ -48,4 +49,35 @@ def regUser(request):
 
 	else:
 		form = regForm()
-	return render(request, 'Blogs/register.html')
+	return render(request, 'Chats/register.html', {'form' : form})
+
+
+
+def login_user(request):
+
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		person = authenticate(username = username, password = password)
+		if person is not None:
+			print("hola")
+			login(request, person)
+			return redirect('send')
+
+		else:
+			print("BBSDK")
+	return render(request, 'Chats/login.html')
+
+@login_required
+def logout_user(request):
+	logout(request)
+	return redirect('regser')
+
+
+
+@login_required
+def query_message(request):
+
+	person = request.user
+	QSet = Message.filter(sender = person.username)
+	

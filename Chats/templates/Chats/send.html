@@ -1,8 +1,14 @@
 {% extends 'Chats/base.html' %}
-
+{% block sendmessage %}
 <div>
 	<form method="POST">{% csrf_token %}
 		{{form.as_p}}
 		<button type="submit">SEND</button>
 	</form>
 </div>
+
+<div>
+	<
+</div>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import time
 class ChatUser(models.Model):
 
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -7,11 +8,12 @@ class ChatUser(models.Model):
 	def __str__(self):
 		return self.user.username
 
-class message(models.Model):
+class Message(models.Model):
 
-	messageText = models.TextField()
+	MessageText = models.TextField()
 	sender = models.CharField(max_length = 50)
 	receiver = models.CharField(max_length = 50)
+	time_of_send = models.FloatField()
 	
 
 
